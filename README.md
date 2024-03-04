@@ -1,0 +1,1 @@
+# Smarter-1-to-OpenAI-schema
