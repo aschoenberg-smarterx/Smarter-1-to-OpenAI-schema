@@ -1,0 +1,145 @@
+Action auth: Bearer API key
+Action schema:
+
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Smarter-1 Marketplace API",
+    "version": "v2beta",
+    "description": "API for generating and retrieving probabilistic classification outputs for products."
+  },
+  "servers": [
+    {
+      "url": "https://api.smarterx.com"
+    }
+  ],
+  "paths": {
+    "/smarter-1-marketplace/v2beta/docs": {
+      "get": {
+        "summary": "Retrieve OpenAPI Specification",
+        "operationId": "getOpenAPISpec",
+        "responses": {
+          "200": {
+            "description": "OpenAPI specification retrieved successfully"
+          }
+        }
+      }
+    },
+    "/smarter-1-marketplace/v2beta/products/classifications/rules": {
+      "get": {
+        "summary": "Get Classification Rules",
+        "operationId": "getClassificationRules",
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Classification rules retrieved successfully"
+          }
+        }
+      }
+    },
+    "/smarter-1-marketplace/v2beta/products/classification_jobs": {
+      "post": {
+        "summary": "Initialize Product Classification Job",
+        "operationId": "initProductClassificationJob",
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Products to classify and rules to evaluate",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductClassificationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product classification job initialized successfully"
+          }
+        }
+      }
+    },
+    "/smarter-1-marketplace/v2beta/products/classification_jobs/{job_id}": {
+      "get": {
+        "summary": "Get Status of Product Classification Job",
+        "operationId": "getStatusOfClassificationJob",
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status of the product classification job retrieved successfully"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    },
+    "schemas": {
+      "ProductClassificationRequest": {
+        "type": "object",
+        "required": ["products"],
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "maxItems": 25,
+            "minItems": 1
+          },
+          "rules_to_evaluate": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": ["ALL"]
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "required": ["name", "brand"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "brand": {
+            "type": "string"
+          },
+          "any-key": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
