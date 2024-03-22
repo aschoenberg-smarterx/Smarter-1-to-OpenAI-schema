@@ -3,8 +3,10 @@
 This Github provides the necessary documentation to create a GPT action to connect to and retrieve any/all classifications from Smarter-1 in the ChatGPT interface.
 
 ****v2beta versus v3beta****
+
 To move from v2beta to v3beta before deprecation, simply replace the v2beta action schema in your backend with the v3beta version provided here. You might need to re-enter your API key in the update.
-**YOU WILL NEED TO SLIGHTLY UPDATE THE SYSTEM PROMPT in order for this new schema to connect correctly to the API**
+
+**YOU WILL NEED TO SLIGHTLY UPDATE THE SYSTEM PROMPT in order for this new schema to connect correctly to the API**:
 change "rules_to_evaluate" to "decisions_to_evaluate" and rename the rules/decisions to the correct name for the entire ruleset. For example: RCRA001, RCRA002 --> RCRA_WASTE
 
 
